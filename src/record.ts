@@ -1,11 +1,10 @@
 import { z } from "zod";
 
-// Generic Record Schema
+// Define the base schema for all records
 export const RecordSchema = z.object({
-    id: z.string().uuid(), // unique identifier
-    createdAt: z.date().default(new Date()), // creation timestamp
-    updatedAt: z.date().optional(), // optional update timestamp
+    id: z.string().uuid().describe("Unique identifier (UUID) for the record."),
+    createdAt: z.date().default(new Date()).describe("The timestamp when the record was created."),
+    updatedAt: z.date().optional().describe("The timestamp when the record was last updated."),
 });
 
-// Inferred Record Type
 export type Record = z.infer<typeof RecordSchema>;
