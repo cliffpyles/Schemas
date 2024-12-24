@@ -220,10 +220,10 @@ export type RepeatingFieldGroup = z.infer<typeof RepeatingFieldGroupSchema>;
  * Schema for FormRestraints, representing constraints and limits for the form fields.
  */
 export const FormRestraintsSchema = z.object({
-    maxFields: z.number().optional()
+    maxFields: z.number().gte(0).optional()
         .describe("Optional maximum number of fields allowed in the form."),
 
-    maxFieldLength: z.number().optional()
+    maxFieldLength: z.number().gte(0).optional()
         .describe("Optional maximum length of field names or values."),
 
     allowedFieldTypes: z.array(z.enum(["text", "textarea", "number", "select", "checkbox", "radio", "date", "password", "custom"]))
