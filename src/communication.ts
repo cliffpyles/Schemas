@@ -55,8 +55,8 @@ export const NotificationSchema = RecordSchema.extend({
     content: z.string().optional()
         .describe("The content or body of the notification."),
 
-    type: z.enum(["info", "warning", "error"]).default("info")
-        .describe("The type of the notification (e.g., informational, warning, or error)."),
+    type: z.enum(["info", "warning", "error"]).default("info").or(z.string())
+        .describe("The type of the notification (e.g., informational, warning, error, or custom)."),
 
     sentAt: z.date().default(new Date())
         .describe("The date and time when the notification was sent."),
