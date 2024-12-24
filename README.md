@@ -102,3 +102,33 @@ Schemas designed for task management, project tracking, and productivity optimiz
 - **Event**: Schema for scheduled occurrences related to tasks or projects.
 - **Reminder**: Schema for scheduled alerts related to tasks or projects.
 - **Project**: Schema for collections of tasks and objectives.
+
+Here’s the revised README section, now referring to them as "Record Schemas":
+
+## Record Schemas
+
+Schemas providing common fields and patterns that can be reused across various modules. They extend the base `RecordSchema` and are designed for building consistent and extensible entities.
+
+- **RecordSchema**: The base schema for all entities, providing fields for `id`, `createdAt`, and `updatedAt`.
+- **TimestampedSchema**: Extends `RecordSchema` with `deletedAt` and `archivedAt` timestamps to support soft deletion and archival.
+- **TaggableSchema**: Extends `RecordSchema` with a `tags` array for categorization or labeling.
+- **OwnedSchema**: Extends `RecordSchema` with an `ownerId` field to represent ownership relationships.
+- **VersionableSchema**: Extends `RecordSchema` with fields for versioning, including `version` and `changes`.
+- **LocatableSchema**: Extends `RecordSchema` with fields for location data, such as `latitude`, `longitude`, and `address`.
+- **MetadataSchema**: Extends `RecordSchema` with a flexible `metadata` field, a key-value store for custom attributes.
+
+### Example Usage of Record Schemas
+
+These schemas can be combined to define specific entities:
+
+```typescript
+import { LocatableSchema, TaggableSchema } from "./record";
+
+const EventSchema = LocatableSchema.extend({
+  title: z.string().min(1).describe("The title of the event."),
+  startDate: z.date().describe("The start date of the event."),
+  endDate: z.date().optional().describe("The end date of the event."),
+}).extend(TaggableSchema.shape);
+
+export type Event = z.infer<typeof EventSchema>;
+```
