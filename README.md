@@ -110,7 +110,8 @@ Here’s the revised README section, now referring to them as "Record Schemas":
 Schemas providing common fields and patterns that can be reused across various modules. They extend the base `RecordSchema` and are designed for building consistent and extensible entities.
 
 - **RecordSchema**: The base schema for all entities, providing fields for `id`, `createdAt`, and `updatedAt`.
-- **TimestampedSchema**: Extends `RecordSchema` with `deletedAt` and `archivedAt` timestamps to support soft deletion and archival.
+- **SoftDeleteableSchema**: Extends `RecordSchema` with `deletedAt` timestamp to support soft deletion.
+- **ArchiveableSchema**: Extends `RecordSchema` with `archivedAt` timestamp to support archival.
 - **TaggableSchema**: Extends `RecordSchema` with a `tags` array for categorization or labeling.
 - **OwnedSchema**: Extends `RecordSchema` with an `ownerId` field to represent ownership relationships.
 - **VersionableSchema**: Extends `RecordSchema` with fields for versioning, including `version` and `changes`.

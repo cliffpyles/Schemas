@@ -8,12 +8,17 @@ export const RecordSchema = z.object({
 });
 export type Record = z.infer<typeof RecordSchema>;
 
-// Timestamped Schema
-export const TimestampedSchema = RecordSchema.extend({
+// SoftDeletable Schema
+export const SoftDeletableSchema = RecordSchema.extend({
     deletedAt: z.date().optional().describe("The timestamp when the record was deleted."),
+});
+export type SoftDeletable = z.infer<typeof SoftDeletableSchema>;
+
+// ArchivableSchema
+export const ArchivableSchema = RecordSchema.extend({
     archivedAt: z.date().optional().describe("The timestamp when the record was archived."),
 });
-export type Timestamped = z.infer<typeof TimestampedSchema>;
+export type Archivable = z.infer<typeof ArchivableSchema>;
 
 // Taggable Schema
 export const TaggableSchema = RecordSchema.extend({
