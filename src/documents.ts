@@ -54,7 +54,7 @@ export const FileSchema = RecordSchema.extend({
 
         passcode: z.string().optional()
             .describe("Optional passcode required to access the file."),
-    }).describe("Access management options for the file."),
+    }).optional().describe("Access management options for the file."),
 });
 
 export type File = z.infer<typeof FileSchema>;

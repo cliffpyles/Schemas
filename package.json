@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "Cliff Pyles <cliff@cliffpyles.com>",
   "license": "MIT",
   "description": "",
   "devDependencies": {
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
     "zod": "^3.23.8"
