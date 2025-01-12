@@ -10,6 +10,18 @@ import {
     ApplicationSchemaSchema,
     ApplicationMiddlewareSchema,
     ApplicationPluginSchema,
+    ApplicationTestSchema,
+    ApplicationBuildSystemSchema,
+    ApplicationDependencySchema,
+    ApplicationErrorHandlerSchema,
+    ApplicationAuthenticationSchema,
+    ApplicationAuthorizationSchema,
+    ApplicationDocumentationSchema,
+    ApplicationHookSchema,
+    ApplicationStateManagementSchema,
+    ApplicationInternationalizationSchema,
+    ApplicationStaticAssetsSchema,
+    ApplicationTransformerSchema
 } from "../src/applications";
 
 describe("ApplicationMetadataSchema", () => {
@@ -270,6 +282,301 @@ describe("ApplicationPluginSchema", () => {
         };
 
         expect(() => ApplicationPluginSchema.parse(invalidPlugin)).toThrow();
+    });
+});
+
+describe("ApplicationTestSchema", () => {
+    it("should validate a valid test", () => {
+        const test = {
+            name: "User service test",
+            type: "unit",
+            status: "passed",
+        };
+
+        expect(() => ApplicationTestSchema.parse(test)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidTest = {
+            type: "unit",
+        };
+
+        expect(() => ApplicationTestSchema.parse(invalidTest)).toThrow();
+    });
+});
+
+describe("ApplicationBuildSystemSchema", () => {
+    it("should validate a valid build system configuration", () => {
+        const buildSystem = {
+            tool: "Webpack",
+            configuration: {
+                mode: "production",
+            },
+        };
+
+        expect(() => ApplicationBuildSystemSchema.parse(buildSystem)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidBuildSystem = {};
+
+        expect(() => ApplicationBuildSystemSchema.parse(invalidBuildSystem)).toThrow();
+    });
+});
+
+describe("ApplicationDependencySchema", () => {
+    it("should validate a valid dependency", () => {
+        const dependency = {
+            name: "lodash",
+            version: "4.17.21",
+            type: "runtime",
+        };
+
+        expect(() => ApplicationDependencySchema.parse(dependency)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidDependency = {
+            name: "lodash",
+        };
+
+        expect(() => ApplicationDependencySchema.parse(invalidDependency)).toThrow();
+    });
+});
+
+describe("ApplicationErrorHandlerSchema", () => {
+    it("should validate a valid error handler", () => {
+        const errorHandler = {
+            type: "global",
+            description: "Handles all uncaught exceptions.",
+        };
+
+        expect(() => ApplicationErrorHandlerSchema.parse(errorHandler)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidErrorHandler = {
+            description: "Handles all uncaught exceptions.",
+        };
+
+        expect(() => ApplicationErrorHandlerSchema.parse(invalidErrorHandler)).toThrow();
+    });
+});
+
+describe("ApplicationAuthenticationSchema", () => {
+    it("should validate a valid authentication configuration", () => {
+        const authentication = {
+            strategies: ["OAuth", "JWT"],
+            isEnabled: true,
+        };
+
+        expect(() => ApplicationAuthenticationSchema.parse(authentication)).not.toThrow();
+    });
+
+    it("should validate an authentication configuration with defaults", () => {
+        const authentication = {
+            strategies: ["BasicAuth"],
+        };
+
+        const parsed = ApplicationAuthenticationSchema.parse(authentication);
+        expect(parsed.isEnabled).toBe(true);
+    });
+
+    it("should throw an error for invalid strategies", () => {
+        const invalidAuthentication = {
+            strategies: ["InvalidStrategy"],
+        };
+
+        expect(() => ApplicationAuthenticationSchema.parse(invalidAuthentication)).toThrow();
+    });
+});
+
+describe("ApplicationAuthorizationSchema", () => {
+    it("should validate a valid authorization configuration", () => {
+        const authorization = {
+            roles: [
+                {
+                    name: "admin",
+                    permissions: ["read", "write", "delete"],
+                },
+            ],
+        };
+
+        expect(() => ApplicationAuthorizationSchema.parse(authorization)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidAuthorization = {
+            roles: [
+                {
+                    permissions: ["read", "write"],
+                },
+            ],
+        };
+
+        expect(() => ApplicationAuthorizationSchema.parse(invalidAuthorization)).toThrow();
+    });
+});
+
+describe("ApplicationDocumentationSchema", () => {
+    it("should validate a valid documentation configuration", () => {
+        const documentation = {
+            format: "Markdown",
+            location: "/docs/api.md",
+        };
+
+        expect(() => ApplicationDocumentationSchema.parse(documentation)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidDocumentation = {
+            format: "HTML",
+        };
+
+        expect(() => ApplicationDocumentationSchema.parse(invalidDocumentation)).toThrow();
+    });
+});
+
+describe("ApplicationHookSchema", () => {
+    it("should validate a valid hook", () => {
+        const hook = {
+            name: "useAuth",
+            trigger: "componentDidMount",
+            description: "Checks if the user is authenticated.",
+        };
+
+        expect(() => ApplicationHookSchema.parse(hook)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidHook = {
+            trigger: "componentDidMount",
+        };
+
+        expect(() => ApplicationHookSchema.parse(invalidHook)).toThrow();
+    });
+});
+
+describe("ApplicationStateManagementSchema", () => {
+    it("should validate a valid state management configuration", () => {
+        const stateManagement = {
+            library: "Redux",
+            stateStructure: {
+                user: {
+                    id: "string",
+                    name: "string",
+                },
+            },
+        };
+
+        expect(() => ApplicationStateManagementSchema.parse(stateManagement)).not.toThrow();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidStateManagement = {
+            stateStructure: {
+                user: {
+                    id: "string",
+                },
+            },
+        };
+
+        expect(() => ApplicationStateManagementSchema.parse(invalidStateManagement)).toThrow();
+    });
+});
+
+describe("ApplicationInternationalizationSchema", () => {
+    it("should validate a valid internationalization configuration", () => {
+        const i18n = {
+            defaultLanguage: "en",
+            supportedLanguages: ["en", "fr", "es"],
+        };
+
+        expect(() => ApplicationInternationalizationSchema.parse(i18n)).not.toThrow();
+    });
+
+    it("should validate internationalization with defaults", () => {
+        const i18n = {
+            supportedLanguages: ["en"],
+        };
+
+        const parsed = ApplicationInternationalizationSchema.parse(i18n);
+        expect(parsed.defaultLanguage).toBe("en");
+    });
+
+    it("should throw an error for invalid configuration", () => {
+        const invalidI18n = {
+            defaultLanguage: "xx",
+            supportedLanguages: null
+        };
+
+        expect(() => ApplicationInternationalizationSchema.parse(invalidI18n)).toThrow();
+    });
+});
+
+describe("ApplicationStaticAssetsSchema", () => {
+    it("should validate a valid static assets configuration", () => {
+        const staticAssets = {
+            images: ["/images/logo.png"],
+            stylesheets: ["/styles/main.css"],
+            scripts: ["/scripts/main.js"],
+        };
+
+        expect(() => ApplicationStaticAssetsSchema.parse(staticAssets)).not.toThrow();
+    });
+
+    it("should validate static assets with defaults", () => {
+        const staticAssets = {};
+
+        const parsed = ApplicationStaticAssetsSchema.parse(staticAssets);
+        expect(parsed.images).toEqual([]);
+        expect(parsed.stylesheets).toEqual([]);
+        expect(parsed.scripts).toEqual([]);
+    });
+
+    it("should throw an error for invalid values", () => {
+        const invalidStaticAssets = {
+            images: "/images/logo.png", // Should be an array
+        };
+
+        expect(() => ApplicationStaticAssetsSchema.parse(invalidStaticAssets)).toThrow();
+    });
+});
+
+describe("ApplicationTransformerSchema", () => {
+    it("should validate a valid transformer", () => {
+        const transformer = {
+            name: "JsonToXmlTransformer",
+            inputType: "JSON",
+            outputType: "XML",
+            description: "Transforms JSON data into XML format.",
+            transformationLogic: "Use xml-js library for conversion.",
+        };
+
+        expect(() => ApplicationTransformerSchema.parse(transformer)).not.toThrow();
+    });
+
+    it("should validate a minimal transformer", () => {
+        const transformer = {
+            name: "CsvToJsonTransformer",
+            inputType: "CSV",
+            outputType: "JSON",
+        };
+
+        const parsed = ApplicationTransformerSchema.parse(transformer);
+        expect(parsed.name).toBe("CsvToJsonTransformer");
+        expect(parsed.inputType).toBe("CSV");
+        expect(parsed.outputType).toBe("JSON");
+        expect(parsed.description).toBeUndefined();
+        expect(parsed.transformationLogic).toBeUndefined();
+    });
+
+    it("should throw an error for missing required fields", () => {
+        const invalidTransformer = {
+            name: "InvalidTransformer",
+        };
+
+        expect(() => ApplicationTransformerSchema.parse(invalidTransformer)).toThrow();
     });
 });
 
